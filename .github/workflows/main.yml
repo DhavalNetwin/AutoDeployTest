@@ -26,7 +26,16 @@ jobs:
           npm i
           npm run build --prod
       - name: Push Build to Releases
+        id: create_release
         uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.TESTTOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          artifacts: "dist/angular-githubaction/*"
-          token: ${{ secrets.TESTTOKEN }}
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
